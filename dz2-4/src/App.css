@@ -1,0 +1,18 @@
+.App {
+  text-align: center;
+}
+* {
+  font-family: "Montserrat", sans-serif;
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+.false{
+  background-color: #881717;
+  color: #fff;
+}
+.true{
+  background-color: #19a62d;
+  color: #000;
+}
