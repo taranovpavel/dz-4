@@ -15,29 +15,13 @@ function App() {
     const handleShow = () => {
         setShow(!show);
     };
-    const [ tasks, setTasks ] = useState([
-            {
-                id: 1,
-                title: 'coding',
-                completed: false
-            },
-            {
-                id: 2,
-                title: 'eat',
-                completed: false
-            },
-            {
-                id: 3,
-                title: 'sleep',
-                completed: false
-            }
-        ]
+    const [ tasks, setTasks ] = useState([]
     );
     const [ originalTasks, setOriginalTasks ] = useState(tasks)
     const handleAdd = () => {
         setTasks(prev=>[...prev,
             {
-                id: tasks.length + 1,
+                id: tasks.length === 0 ? 1 : tasks[tasks.length-1].id +1,
                 title: input,
                 completed: false,
             }
@@ -79,9 +63,37 @@ function App() {
             setTasks(filteredTasks)
         }
     };
+
+    const [filterOption, setFilterOption] = useState('all')
+    const handleFilterChange = (event) => {
+        setFilterOption(event.target.value)
+    }
+
+    const filterTasks = tasks.filter(task => {
+        switch (filterOption) {
+            case 'completed' :
+                return task.completed;
+            case 'notCompleted' :
+                return !task.completed;
+            default:
+                return true
+        }
+    })
+
     useEffect(() => {
-        console.log('useEffect')
-    }, [tasks]);
+        const myLocalList = JSON.parse(localStorage.getItem('tasks'))
+        if (myLocalList === null) {
+            return localStorage.setItem('tasks', JSON.stringify(tasks))
+        }
+        if (myLocalList.length !== 0 ) {
+            setTasks(myLocalList)
+        }
+    }, []);
+
+    useEffect(()=>{
+        localStorage.setItem('tasks', JSON.stringify(tasks))
+    }, [tasks])
+
     return (
         <>
             {
@@ -95,16 +107,22 @@ function App() {
             }
             <button onClick={handleShow}>открыть</button>
             <Input
-              placeholder={'искать'}
-              onChangeInput={handleSearch}
+                placeholder={'искать'}
+                onChangeInput={handleSearch}
             />
+            <select value={filterOption} onChange={handleFilterChange}>
+                <option value="all">Все таски</option>
+                <option value="completed">Выполненные</option>
+                <option value="notCompleted">Не выполненные</option>
+            </select>
             <ToDoList
-              tasks={tasks}
-              handleDelete={handleDelete}
-              handleDone={handleDone}
-              handleEdit={handleEdit}
+                tasks={filterTasks}
+                handleDelete={handleDelete}
+                handleDone={handleDone}
+                handleEdit={handleEdit}
             />
         </>
     );
 }
+
 export default App;
