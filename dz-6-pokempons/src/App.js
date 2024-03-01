@@ -2,6 +2,8 @@ import './App.css';
 import React, { useEffect, useState } from 'react';
 import axios from "axios";
 import PokemonCards from "./components/pokemon/PokemonCards";
+import { BrowserRouter, Route, Routes } from 'react-router-dom';
+import PokemonInfo from "./page/pokemonInfo/PokemonInfo";
 
 function App() {
     const [pokemons, setPokemons] = useState([])
@@ -14,9 +16,13 @@ function App() {
     }, []);
 
     return (
-        <>
-            <PokemonCards list={pokemons} />
-        </>
+    <BrowserRouter>
+        <Routes>
+            <Route path='/' element={<PokemonCards list={pokemons}/>}/>
+            <Route path='/:id' element={<PokemonInfo/>}/>
+        </Routes>
+    </BrowserRouter>
+
     );
 }
 

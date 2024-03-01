@@ -4,7 +4,7 @@ import classes from "./PokemonCards.module.css"
 
 const PokemonCards = ({list}) => {
     return (
-        <ul>
+        <ul className={classes.cards}>
             {list.map(pokemonCard =>
                 <PokemonCard
                     url={pokemonCard.url}
