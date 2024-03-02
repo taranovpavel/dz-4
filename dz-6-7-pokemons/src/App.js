@@ -1,7 +1,7 @@
 import './App.css';
 import React, { useEffect, useState } from 'react';
 import axios from "axios";
-import PokemonCards from "./components/pokemon/PokemonCards";
+import PokemonCards from "./page/pokemonCards/PokemonCards";
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import PokemonInfo from "./page/pokemonInfo/PokemonInfo";
 

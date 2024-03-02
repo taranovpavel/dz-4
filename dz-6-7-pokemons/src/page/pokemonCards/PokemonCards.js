@@ -1,5 +1,5 @@
 import React from 'react';
-import PokemonCard from "../pokemonCard/PokemonCard";
+import PokemonCard from "../../components/pokemonCard/PokemonCard";
 import classes from "./PokemonCards.module.css"
 
 const PokemonCards = ({list}) => {
