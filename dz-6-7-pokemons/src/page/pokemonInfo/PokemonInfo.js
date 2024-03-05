@@ -8,31 +8,40 @@ const PokemonInfo = () => {
 
     const {id} = useParams()
     const [pokemon, setPokemon] = useState({})
+    const [ loading, setLoading ] = useState(false);
     const getPokemon = async () => {
-        const {data} = await axios.get(`https://pokeapi.co/api/v2/pokemon/${id}/`)
-        setPokemon(data)
+        setLoading(true);
+        try {
+            const { data } = await axios.get(`https://pokeapi.co/api/v2/pokemon/${id}`);
+            return data;
+        } catch(e) {
+            console.log('Error', e.message);
+        } finally {
+            setLoading(false);
+        }
     }
     useEffect(()=>{
-        getPokemon()
-    }, [])
-    const [image, setImage] = useState([])
-    const getImage = async () => {
-        const {data} = await axios.get(`https://pokeapi.co/api/v2/pokemon/${id}/`)
-        setImage(data.sprites.other.dream_world.front_default)
-    }
-    useEffect(() => {
-        getImage()
-    }, []);
-    const [stats, setStats] = useState([])
+        getPokemon().then(pokemon=>setPokemon(pokemon))
+    }, [ id ])
+
+
     return (
         <div className={classes.info}>
-            <img src={image} alt=""/>
-            <p className={classes.name}>{pokemon.name}</p>
-            <ul>
-                <li><p>height</p><p>{pokemon.height}</p></li>
-                <li><p>weight</p><p>{pokemon.weight}</p></li>
-                <li><p>base_experience</p><p>{pokemon.base_experience}</p></li>
-            </ul>
+            {
+                loading
+                    ?
+                    <p>Загрузка</p>
+                    :
+                    <>
+                        <img src={pokemon?.sprites?.other?.dream_world?.front_default} alt="pokemon"/>
+                        <p>Name: {pokemon?.name}</p>
+                        <p>Abilities: {pokemon?.abilities?.map(value=> value.ability.name).join(', ')}</p>
+                        <p>Stats: {pokemon?.stats?.map(value=> value.stat.name).join(', ')}</p>
+                        <p>Types: {pokemon?.types?.map(value=> value.type.name).join(', ')}</p>
+                        <p>Some-moves: {pokemon?.moves?.slice(0,5).map(value=> value.move.name).join(', ')}</p>
+
+                    </>
+            }
         </div>
     );
 };

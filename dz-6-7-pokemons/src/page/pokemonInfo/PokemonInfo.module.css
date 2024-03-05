@@ -1,6 +1,6 @@
 .info{
     width: 400px;
-    height: 520px;
+    height: 560px;
     background-color: #ddd;
     margin: 110px auto;
     padding: 30px;
@@ -9,21 +9,7 @@
     flex-direction: column;
     border-radius: 20px;
 }
-.info ul {
-    padding: 0 20px;
-    display: flex;
-    flex-direction: column;
-    gap: 20px;
-}
-.info li {
-    display: flex;
-    justify-content: space-between;
-}
 .info img {
     height: 300px;
-}
-.name {
-    font-size: 32px;
-    text-align: center;
-    margin-bottom: 20px;
+    margin-bottom: 24px;
 }
